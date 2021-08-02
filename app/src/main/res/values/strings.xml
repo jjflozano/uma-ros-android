@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">UMA ROS-Android</string>
+
+    <string name="info_text">Esta aplicación ha sido desarrollada para el TFM titulado "Integración de sensores 5G con ROS para misiones de respuesta
+a emergencias".</string>
+
+    <string name="camera_on">Camera: ON</string>
+    <string name="camera_off">Camera: OFF</string>
+
+    <string name="imu_on">IMU: ON</string>
+    <string name="imu_off">IMU: OFF</string>
+
+    <string name="audio_on">AUDIO: ON</string>
+    <string name="audio_off">AUDIO: OFF</string>
+
+    <string name="gps_on">GPS: ON</string>
+    <string name="gps_off">GPS: OFF</string>
+
+</resources>
