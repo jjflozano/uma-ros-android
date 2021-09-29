@@ -32,13 +32,17 @@ The configuration screen to connect to the ROS network is based in the [default 
 
 This makes the execution of the app in multiple smartphones simultaneously in the same ROS network possible.
 
-<img src="figs/custom_master_chooser.jpg" alt="Custom Master Chooser" width="300" />
+<p align="center">
+    <img src="figs/custom_master_chooser.jpg" alt="Custom Master Chooser" width="300" />
+<p/>
 
-### Running
+## Running
 Once the connection with the ROS Master is established the Main Activity is executed, where all the nodes checked with the switches run and publish the data.
 The GUI only shows information about the sensors running since our use case was the coupling of the smartphone to a robot, with no interaction from the user needed (other than configuration).
 
-<img src="figs/main_activity.jpg" alt="Custom Master Chooser" width="300" />
+<p align="center">
+    <img src="figs/main_activity.jpg" alt="Custom Master Chooser" width="300" />
+<p/>
 
 Topics in this case:
 ```
@@ -49,11 +53,15 @@ Topics in this case:
 /android0/IMU
 ```
 
-Previous versions of the app showed a preview view of the camera in the Main Activity GUI. This can be easily reimplemented thanks to cameraX.
+Previous versions of the app showed a preview view of the camera in the Main Activity GUI but, due to battery consumption issues, it is currently removed. If needed it can be easily reimplemented thanks to cameraX.
 
 ## How to add more nodes
 
-The procedure to add a new node is relatively simple and replicable. First, if you want to be able to choose from the GUI whether to activate it or not, you must include a new switch in the configuration screen to do so:
+### Add a switch in the GUI
+
+The procedure to add a new node is relatively simple and replicable. This step should be done iff you want to decide from the interface which nodes are executed. **However, in case you only want the node to be executed indefinitely, skip this section**
+
+First, if you want to be able to choose from the GUI whether to activate the node, you must include a new switch in the configuration screen to do so:
 - Go to project folder `<desired directory>/uma-ros-android/app/src/main/res/layout`. Here are the two interface files for the two activities included in the app. Open `activity_setup.xml`
 - Locate the _container_ where all the switches are located and add a new one. It is recommended to copy one of the included ones and modify it to place it wherever you want (_Android Studio_ allows a preview to check that the interface is correct). For example:
 
@@ -70,7 +78,7 @@ The procedure to add a new node is relatively simple and replicable. First, if y
     android:textColor="@color/colorText" />
 ```
 
-Next thing to do is to change the source code of the activities to take into account the state of the new switch:
+Next thing to do is to change the source code of the activities to know the state of the new switch:
 
 - Go to the folder `.../app/src/main/java/com/example/umarosandroid`. In this folder is the source code for the two activities and the sensory management ROS nodes.
 
@@ -96,7 +104,7 @@ enableNew = isChecked;
 });
 ```
 
-- Find the button's listener routine and look for the conditional `if(result)`, which is true when a connection has been established with the ROS master. Add inside the following line, which will pass the state of the `Switch` (off or on) to the main activity to execute (or not) the corresponding node.
+- Find the "Connect" button's listener routine and look for the conditional `if(result)`, which is true when a connection has been established with the ROS master. Add inside the following line, which will pass the state of the `Switch` (off or on) to the main activity to execute (or not) the corresponding node.
 ```java
 mIntent.putExtra(ENABLE_NEW,enableNew);
 ```
@@ -120,11 +128,21 @@ if(enableNew) {
 }
 ```
 
-All the above should be done iff you want to decide from the interface which nodes are executed and which are not. **However, in case you only want to declare a node to be executed, you do not have to take into account the above** (hardcoding the boolean value of `enableNew` and including the last snippet of code would be enough).
+### No switch in the GUI 
 
-It is also necessary to add the libraries, instantiations and other elements required for the new sensors or functionalities to be included, which are the responsibility of the reader to find the necessary documentation.
+In case the node doesn't need a switch, just:
 
-The next and last step would be to create the source code for the new ROS node (rosjava).
+- Open the file `MainActivity.java`.
+
+- Add in the execution routine `init(NodeMainExecutor nodeMainExecutor)` the following lines:
+
+```java
+NewNode newNode = new NewNode(nodeName);
+nodeMainExecutor.execute(newNode, nodeConfiguration);
+```
+
+### Define the node
+Once the app is ready to execute the new ROS node, the last thing to do would be to write its source code.
 
 - Create a `NewNode.java` class file
 
@@ -146,13 +164,13 @@ public class NewNode extends AbstractNodeMain {
         newPubliser = connectedNode.newPublisher(nodeName+"/NewTopic",String._TYPE);
         String newMsg = newPubliser.newMessage();
         connectedNode.executeCancellableLoop(new CancellableLoop() {
-            // Rutina que se ejecuta antes de
-            // entrar al bucle principal
+            // Routine executed before
+            // entering the main loop
             @Override
             protected void setup() {
                 newMsg.setData("Hello World!");
             }
-            // Bucle principal
+            // Main loop
             @Override
             protected void loop() throws InterruptedException {
                 newPublisher.publish(newMsg);
@@ -162,5 +180,6 @@ public class NewNode extends AbstractNodeMain {
     }
 }
 ```
-So a node called *<identifier>/NewNode* will be launched, this node will publish in the topic */identifier/NewTopic* every second a message saying *"Hello World!"*. From this base structure we have created the rest of the more complex nodes such as the camera and audio nodes.
+- Note that it is also necessary to add the libraries, instances and other elements required for the new sensors or functionalities to be included, which are the responsibility of the reader to find the necessary documentation.
 
+Finally, when the changes are loaded into the app, a ROS node called `<identifier>/NewNode` will be launched, this node will publish in the topic `/identifier/NewTopic` every second a message saying `"Hello World!"`. From this base structure we have created the rest of the more complex nodes such as the camera and audio nodes.
