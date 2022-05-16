@@ -124,7 +124,14 @@ public class CustomMasterChooser extends AppCompatActivity {
     public static final String ENABLE_GPS = "com.example.umarosandroid.ENABLE_GPS";
     public static final String ENABLE_IMU = "com.example.umarosandroid.ENABLE_IMU";
 
-    public static final String ENABLE_NLP = "com.example.umarosandroid.ENABLE_NLP";
+    //public static final String ENABLE_CUADRIGA = "com.example.umarosandroid.ENABLE_CUADRIGA";
+    //public static final String ENABLE_RAMBLER = "com.example.umarosandroid.ENABLE_RAMBLER";
+    //public static final String ENABLE_ROVERJ8 = "com.example.umarosandroid.ENABLE_ROVERJ8";
+    //public static final String ENABLE_NLP = "com.example.umarosandroid.ENABLE_NLP";
+
+    public static final String ENABLE_CUADRIGA = "com.example.umarosandroid.ENABLE_CUADRIGA";
+    public static final String ENABLE_RAMBLER = "com.example.umarosandroid.ENABLE_RAMBLER";
+    public static final String ENABLE_ROVERJ8 = "com.example.umarosandroid.ENABLE_ROVERJ8";
 
     private AutoCompleteTextView uriText;
 
@@ -135,7 +142,11 @@ public class CustomMasterChooser extends AppCompatActivity {
     Switch gpsSwitch;
     Switch imuSwitch;
 
-    Switch nlpSwitch;
+    //Switch cuadrigaSwitch;
+    //Switch ramblerSwitch;
+    //Switch roverJ8Switch;
+
+    //Switch nlpSwitch;
 
     String nodeName_s = "";
 
@@ -143,12 +154,16 @@ public class CustomMasterChooser extends AppCompatActivity {
     boolean enableAudio;
     boolean enableGps;
     boolean enableImu;
-    boolean enableNlp;
+    // boolean enableNlp;
+
+    boolean enableCuadriga;
+    boolean enableRambler;
+    boolean enableRoverJ8;
 
     private Button connectButton;
     private LinearLayout connectionLayout;
 
-
+    //Bundle: dataset used for passing info from one activity to another.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,7 +194,12 @@ public class CustomMasterChooser extends AppCompatActivity {
         audioSwitch = (Switch) findViewById(R.id.AudioSwitch);
         gpsSwitch = (Switch) findViewById(R.id.GPSSwitch);
         imuSwitch = (Switch) findViewById(R.id.IMUSwitch);
-        nlpSwitch = (Switch) findViewById(R.id.NLPSwitch);
+
+        //   cuadrigaSwitch = (Switch) findViewById(R.id.cuadrigaSwitch);
+        //  ramblerSwitch = (Switch) findViewById(R.id.ramblerSwitch);
+        // roverJ8Switch = (Switch) findViewById(R.id.roverJ8Switch);
+
+        // nlpSwitch = (Switch) findViewById(R.id.NLPSwitch);
 
         connectButton = (Button) findViewById(R.id.createorconnect);
         connectionLayout = (LinearLayout) findViewById(R.id.connection_layout);
@@ -250,13 +270,6 @@ public class CustomMasterChooser extends AppCompatActivity {
                 System.out.println("IMU toggled");
             }
         });
-        nlpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enableNlp = isChecked;
-                System.out.println("NLP toggled");
-            }
-        });
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,7 +338,8 @@ public class CustomMasterChooser extends AppCompatActivity {
                             mIntent.putExtra(ENABLE_AUDIO,enableAudio);
                             mIntent.putExtra(ENABLE_GPS,enableGps);
                             mIntent.putExtra(ENABLE_IMU,enableImu);
-                            mIntent.putExtra(ENABLE_NLP,enableNlp);
+
+                            //mIntent.putExtra(ENABLE_NLP,enableNlp);
                             startActivity(mIntent);
                             setResult(RESULT_OK, mIntent);
 

@@ -28,39 +28,37 @@ import std_msgs.UInt16MultiArray;
 import std_msgs.UInt8;
 import std_msgs.UInt8MultiArray;
 
-public class NLPNode extends AbstractNodeMain {
+public class CuadrigaNode extends AbstractNodeMain {
 
     private String nodeName;
-    private Publisher<Bool> nlpPubliser;
-    private boolean enableNlp;
+    private Publisher<Bool> cuadrigaPublisher;
+    private boolean enableCuadriga;
 
-    public NLPNode(String nodeName, boolean enableNlp) {
+    public CuadrigaNode(String nodeName, boolean enableCuadriga) {
         this.nodeName = nodeName;
-        this.enableNlp = enableNlp;
-    }
+        this.enableCuadriga = enableCuadriga;
 
-    @Override
+    }
     public GraphName getDefaultNodeName()
     {
-        return GraphName.of(nodeName+"/NLPNode");
+        return GraphName.of(nodeName+"/cuadrigaNode");
     }
 
-    @Override
     public void onStart(ConnectedNode connectedNode) {
-        nlpPubliser = connectedNode.newPublisher(nodeName+"/nlp_activated",Bool._TYPE);
-        Bool nlpMsg = nlpPubliser.newMessage();
+        cuadrigaPublisher = connectedNode.newPublisher(nodeName+"/calling_to_Cuadriga",Bool._TYPE);
+        Bool cuadrigaMsg = cuadrigaPublisher.newMessage();
 
         connectedNode.executeCancellableLoop(new CancellableLoop() {
             @Override
             protected void setup() {
-                nlpMsg.setData(enableNlp);
+                cuadrigaMsg.setData(enableCuadriga);
 
             }
 
             @Override
             protected void loop() throws InterruptedException {
-                nlpPubliser.publish(nlpMsg);
-                Thread.sleep(1000);
+                cuadrigaPublisher.publish(cuadrigaMsg);
+                Thread.sleep(500);
             }
         });
 

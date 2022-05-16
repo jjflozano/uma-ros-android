@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
 
     <!--androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -17,56 +17,258 @@
         app:layout_constraintEnd_toEndOf="parent" /-->
 
     <TextView
-        android:id="@+id/nameText"
+        android:id="@+id/callUGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name:"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        android:text="Call to autonomous UGV"
+        android:textAlignment="center"
+        android:textColor="#FBFAFA"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/cuadrigaSwitch"
+        android:layout_width="197dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/colorText"/>
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
-        android:id="@+id/cameraText"
+        android:id="@+id/cuadrigaLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Camera:"
-        app:layout_constraintTop_toBottomOf="@id/nameText"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="80dp"
+        android:text="CUADRIGA"
+        android:textAlignment="center"
+        android:textColor="#DA0C0C"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/colorText"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/ramblerSwitch"
+        android:layout_width="197dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cuadrigaSwitch" />
 
     <TextView
-        android:id="@+id/audioText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Audio:"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/ramblerLabel"
+        android:layout_width="125dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="152dp"
+        android:text="RAMBLER"
+        android:textAlignment="center"
+        android:textColor="#E40A0A"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cameraText"
-        android:textColor="@color/colorText"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="121dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="232dp"
+        android:text="ROVER J8"
+        android:textAlignment="center"
+        android:textColor="#DA1313"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/roverJ8Switch"
+        android:layout_width="197dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ramblerSwitch" />
 
 
     <TextView
-        android:id="@+id/GPSText"
+        android:id="@+id/sensors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GPS:"
+        android:layout_marginTop="12dp"
+        android:text="5G sensor-node information"
+        android:textColor="#F8F5F5"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roverJ8Switch" />
+
+    <TextView
+        android:id="@+id/UGV_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Status of autonomous UGVs"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/audioText"
-        android:textColor="@color/colorText"/>
+        app:layout_constraintTop_toBottomOf="@+id/audioText" />
 
+    <TextView
+        android:id="@+id/CuadrigaText"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="20dp"
+        android:text="Cuadriga:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UGV_label" />
+
+    <TextView
+        android:id="@+id/statusRambler"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:text="busy"
+        android:textAlignment="textStart"
+        android:textColor="#F44336"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/RamblerText"
+        app:layout_constraintTop_toBottomOf="@+id/statusCuadriga"
+        app:layout_constraintVertical_bias="0.006" />
+
+    <TextView
+        android:id="@+id/J8Text"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="28dp"
+        android:text="Rover J8:"
+        android:textAlignment="center"
+        android:textColor="#FFFEFE"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RamblerText"
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/statusCuadriga"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="available"
+        android:textAlignment="textStart"
+        android:textColor="#4CAF50"
+        android:textColorLink="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toEndOf="@+id/CuadrigaText"
+        app:layout_constraintTop_toBottomOf="@+id/UGV_label" />
+
+    <TextView
+        android:id="@+id/j8status"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="28dp"
+        android:text="available"
+        android:textAlignment="textStart"
+        android:textColor="#4CAF50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintStart_toEndOf="@+id/J8Text"
+        app:layout_constraintTop_toBottomOf="@+id/statusRambler"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/RamblerText"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="100dp"
+        android:text="Rambler:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CuadrigaText"
+        app:layout_constraintVertical_bias="0.188" />
 
     <TextView
         android:id="@+id/ImuText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="IMU:"
+        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.719"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GPSText"
-        android:textColor="@color/colorText"/>
+        app:layout_constraintTop_toBottomOf="@+id/GPSText" />
+
+    <TextView
+        android:id="@+id/GPSText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="GPS:"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.721"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensors" />
+
+    <TextView
+        android:id="@+id/audioText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Audio:"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.296"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraText" />
+
+    <TextView
+        android:id="@+id/cameraText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Camera:"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ID" />
+
+    <TextView
+        android:id="@+id/ID"
+        android:layout_width="183dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="SAR ID:"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensors" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
