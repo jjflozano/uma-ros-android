@@ -107,7 +107,7 @@ The GUI only shows information about the sensors running since our use case was 
 <p/>
 
 <p align="center">
-    <img src="figs/connectActivity.jpg" alt="Custom Master Chooser" width="300" />
+    <img src="figs/Activities.png" alt="Custom Master Chooser" width="300" />
 <p/>
 
 Topics in this case:
