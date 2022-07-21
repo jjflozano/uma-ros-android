@@ -106,6 +106,10 @@ The GUI only shows information about the sensors running since our use case was 
     <img src="figs/main_activity.jpg" alt="Custom Master Chooser" width="300" />
 <p/>
 
+<p align="center">
+    <img src="figs/connectActivity.jpg" alt="Custom Master Chooser" width="300" />
+<p/>
+
 Topics in this case:
 ```
 /android0/camera/compressed
