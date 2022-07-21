@@ -95,7 +95,7 @@ The configuration screen to connect to the ROS network is based in the [default 
 This makes the execution of the app in multiple smartphones simultaneously in the same ROS network possible.
 
 <p align="center">
-    <img src="figs/custom_master_chooser.jpg" alt="Custom Master Chooser" width="300" />
+    <img src="figs/SetupActivity.jpeg" alt="Custom Master Chooser" width="300" />
 <p/>
 
 ## Running
@@ -103,7 +103,7 @@ Once the connection with the ROS Master is established the Main Activity is exec
 The GUI only shows information about the sensors running since our use case was the coupling of the smartphone to a robot, with no interaction from the user needed (other than configuration).
 
 <p align="center">
-    <img src="figs/main_activity.jpg" alt="Custom Master Chooser" width="300" />
+    <img src="figs/ConnectActivity.png" alt="Custom Master Chooser" width="300" />
 <p/>
 
 <p align="center">
