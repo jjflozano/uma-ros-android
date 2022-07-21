@@ -15,6 +15,68 @@ slightly modified for integration with the rest of the app.
 
 Audio captured is published and also saved as a WAV file in the internal storage for offline analysis.
 
+# More details and updates:
+We present the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
+(API 32). The app is intended for general use in distributed robotic systems, based on the Cloud Robotics concept. 
+The main goal is to integrate a smartphone as a sensor-node, by publishing information, via ROS, from and about the SAR agent carrying it.
+
+
+The interaction between the SAR agent and the UMA-ROS-Android app must be user-friendly and agile, leading to a double purpose: 
+ 1) To expand the ROS network, adding new sensor-nodes to the IoRT ecosystem, either through a LAN or via WAN, by means of smartphones. 
+ These devices are interesting for an IoRT because they have their own mobile connectivity (no dependence on routers), high processing power
+ in a small container, internal memory large enough to store datasets, and attractive sensors for data collection: cameras, IMU, GPS and a microphone.
+ For this, the user must set the socket local to his network or public, so that the connections will be local to the smartphone's network, or remote to it,
+ respectively.
+ 
+ 2) To address some needs of human and robotic SAR agents, acquiring information from their surroundings: images and audio, especially. 
+ In addition, the app should encourage cooperation between agents: activate a path-planning for a UGV towards the location of the responder
+ using the app in his/her smartphone. Moreover, it is necessary to get and show information from other agents in the screen.
+  
+ The app has two screens as a user interface. A dark, high contrast colour gamut has been chosen for
+ proper outdoor viewing and so that devices with OLED displays can benefit from reduced battery consumption. When UMA-ROS-Android is executed 
+ in a smartphone, the first activity running is the setup activity. In here, two user inputs are requested: the ROS master socket 
+ (local or public IP address and port) in order to connect to the ROS nodes distributed over the SAR-IoCA architecture, and the user identification. 
+ This user name is associated with the namespace of the ROS topics where the desired information will be published. This can be done by marking 
+ the switches related to each of the smartphone's internal sensors (camera, microphone, IMU and GPS). When these switches are enabled,
+ their colour changes to green. Finally, a large button has been set up for the user to connect to the ROS network distributed in the Fog. 
+ Therefore, all these topics are visible in any host of the architecture: Cloud, MECs and IoRT.
+ 
+ The second screen is the connection activity, where the user can select one or more switches in order to call one or more of the robots (UGVs) 
+ available in the IoRT. The list of UGVs presented in this new version of the app is static, and includes three UGVs from our 
+ Robotics and Mechatronics Group: Cuadriga, Rambler and Rover J8. All of them can be called from the app, thanks to the integration 
+ of SAR-FIS in the ROS network. Figure \ref{fig:appscreenshots} shows how the agent García has performed a query for the Rover J8 to be planned
+ to the location of the smartphone, which is taken by SAR-FIS in the ROS topic /García/fix. Finally, the bottom of the connection activity shows 
+ what information is transmitted from this smartphone and through which ROS topics.
+ 
+ The functionality of the application is structured in 10 classes written in java, eight of which include the construction of the ROS nodes needed to exchange information with the rest of ROS nodes in the SAR-IoCA architecture. The other two java classes are associated with the two activities that make up the frontend, so that the user can switch from one to the other using objects.
+
+In the case of the setup activity:
+
+{CustomMasterChooser}: links the switches on the setup activity to ROS publishers, allowing the user to choose which information to transmit.
+{CameraNode}: an object for image analysis is instantiated by defining the target resolution and the camera that will provide the image (1080p resolution and rear camera are selected by default). Then, the node enters a listening routine where each incoming frame from the camera in YUV format is converted and compressed to JPG format and packed into a ROS message to be published as \textit{sensor\_msgs/CompressedImage}. %The image was shown on the screen (connection activity in figure \ref{fig:appscreenshots}) in early versions of the app, but given the high energy consumption of the smartphone, it has been decided to hide this option. Each time a frame is published, it is accompanied by a message with information about the image resolution in another topic. If the smartphone camera is calibrated, the resulting matrices can also be included.
+{AudioNode}: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the \textit{AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of \SI{44.1}{\kilo\Hz} and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of \textit{uint8}, writes this reading to a temporary file, packs it into a message of type \textit{std\_msgs/UInt8MultiArray} and publishes it. 
+When the app disconnects from the master node, the temporary file is converted into an audio file in waveform format (\textit{.WAV}). %To do this, an auxiliary routine is run which specifies the audio sampling parameters in the file header and then rewrites the contents of the temporary file into the final audio file, stored in a specific folder on the smartphone. The file name contains the phone identifier and the recording start date and time.
+{GPSNode} and {ImuNode}: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as \textit{/sensor\_msgs/IMU}, according to the default sampling rate.
+
+For GPS, the native Android location library is used and the readings are sent in a ROS message of type \textit{sensor\_msgs/NavSatFix}. 
+There are two GPS configuration parameters: the minimum time and distance between updates \cite{GPSparameters}. 
+By default they have been given a null value updated.
+
+In the case of the connection activity:
+
+{ConnectActivity}: shows what information is being published and links the SAR ID to the namespace established in the first screen.
+This class manages all the ROS nodes related to the path-planning activation and shows the status of the UGVs
+The back button kills all existing ROS nodes on the smartphone and stores the audio file in the internal memory of the device.
+
+{CuadrigaNode}, {RamblerNode} and {RoverJ8Node}: ROS nodes publishing a Bool message associated with the user's selection of a robot. 
+This message is used to trigger path planning from SAR-FIS for the needed available UGV. 
+The sending frequency is set by default to 500 ms. 
+Each switch belonging to a UGV has its own ROS topic, where the namespace identifies the human agent requesting the autonomous movement of the UGVs,
+followed by the name \textit{calling\_to\_robot}, where \textit{robot} is the name of the UGV.
+
+{statusNode}: ROS node subscribed to a topic generated by SAR-FIS, where the published message is related to the availability of each UGV in the IoRT. 
+In case a UGV is available (not being used by another agent or called by another smartphone), the display (in the connection activity) will show its status: available or busy.
+
 ## Installation
 The installation is made through Android Studio IDE. Since rosjava supports Gradle and Maven repositories, there's no
 need for downloading any other dependencies manually. Everything will be automatically installed once you open and build the project
@@ -183,67 +245,3 @@ public class NewNode extends AbstractNodeMain {
 - Note that it is also necessary to add the libraries, instances and other elements required for the new sensors or functionalities to be included, which are the responsibility of the reader to find the necessary documentation.
 
 Finally, when the changes are loaded into the app, a ROS node called `<identifier>/NewNode` will be launched, this node will publish in the topic `/identifier/NewTopic` every second a message saying `"Hello World!"`. From this base structure we have created the rest of the more complex nodes such as the camera and audio nodes.
-
-
-********************************************************************************************************************************************************
-
-This section presents the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
-(API 32). The app is intended for general use in distributed robotic systems, based on the Cloud Robotics concept. 
-The main goal is to integrate a smartphone as a sensor-node, by publishing information, via ROS, from and about the SAR agent carrying it.
-
-
-The interaction between the SAR agent and the UMA-ROS-Android app must be user-friendly and agile, leading to a double purpose: 
- 1) To expand the ROS network, adding new sensor-nodes to the IoRT ecosystem, either through a LAN or via WAN, by means of smartphones. 
- These devices are interesting for an IoRT because they have their own mobile connectivity (no dependence on routers), high processing power
- in a small container, internal memory large enough to store datasets, and attractive sensors for data collection: cameras, IMU, GPS and a microphone.
- For this, the user must set the socket local to his network or public, so that the connections will be local to the smartphone's network, or remote to it,
- respectively.
- 
- 2) To address some needs of human and robotic SAR agents, acquiring information from their surroundings: images and audio, especially. 
- In addition, the app should encourage cooperation between agents: activate a path-planning for a UGV towards the location of the responder
- using the app in his/her smartphone. Moreover, it is necessary to get and show information from other agents in the screen.
-  
- The app has two screens as a user interface. A dark, high contrast colour gamut has been chosen for
- proper outdoor viewing and so that devices with OLED displays can benefit from reduced battery consumption. When UMA-ROS-Android is executed 
- in a smartphone, the first activity running is the setup activity. In here, two user inputs are requested: the ROS master socket 
- (local or public IP address and port) in order to connect to the ROS nodes distributed over the SAR-IoCA architecture, and the user identification. 
- This user name is associated with the namespace of the ROS topics where the desired information will be published. This can be done by marking 
- the switches related to each of the smartphone's internal sensors (camera, microphone, IMU and GPS). When these switches are enabled,
- their colour changes to green. Finally, a large button has been set up for the user to connect to the ROS network distributed in the Fog. 
- Therefore, all these topics are visible in any host of the architecture: Cloud, MECs and IoRT.
- 
- The second screen is the connection activity, where the user can select one or more switches in order to call one or more of the robots (UGVs) 
- available in the IoRT. The list of UGVs presented in this new version of the app is static, and includes three UGVs from our 
- Robotics and Mechatronics Group: Cuadriga, Rambler and Rover J8. All of them can be called from the app, thanks to the integration 
- of SAR-FIS in the ROS network. Figure \ref{fig:appscreenshots} shows how the agent García has performed a query for the Rover J8 to be planned
- to the location of the smartphone, which is taken by SAR-FIS in the ROS topic /García/fix. Finally, the bottom of the connection activity shows 
- what information is transmitted from this smartphone and through which ROS topics.
- 
- The functionality of the application is structured in 10 classes written in java, eight of which include the construction of the ROS nodes needed to exchange information with the rest of ROS nodes in the SAR-IoCA architecture. The other two java classes are associated with the two activities that make up the frontend, so that the user can switch from one to the other using objects.
-
-In the case of the setup activity:
-
-{CustomMasterChooser}: links the switches on the setup activity to ROS publishers, allowing the user to choose which information to transmit.
-{CameraNode}: an object for image analysis is instantiated by defining the target resolution and the camera that will provide the image (1080p resolution and rear camera are selected by default). Then, the node enters a listening routine where each incoming frame from the camera in YUV format is converted and compressed to JPG format and packed into a ROS message to be published as \textit{sensor\_msgs/CompressedImage}. %The image was shown on the screen (connection activity in figure \ref{fig:appscreenshots}) in early versions of the app, but given the high energy consumption of the smartphone, it has been decided to hide this option. Each time a frame is published, it is accompanied by a message with information about the image resolution in another topic. If the smartphone camera is calibrated, the resulting matrices can also be included.
-{AudioNode}: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the \textit{AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of \SI{44.1}{\kilo\Hz} and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of \textit{uint8}, writes this reading to a temporary file, packs it into a message of type \textit{std\_msgs/UInt8MultiArray} and publishes it. 
-When the app disconnects from the master node, the temporary file is converted into an audio file in waveform format (\textit{.WAV}). %To do this, an auxiliary routine is run which specifies the audio sampling parameters in the file header and then rewrites the contents of the temporary file into the final audio file, stored in a specific folder on the smartphone. The file name contains the phone identifier and the recording start date and time.
-{GPSNode} and {ImuNode}: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as \textit{/sensor\_msgs/IMU}, according to the default sampling rate.
-
-For GPS, the native Android location library is used and the readings are sent in a ROS message of type \textit{sensor\_msgs/NavSatFix}. 
-There are two GPS configuration parameters: the minimum time and distance between updates \cite{GPSparameters}. 
-By default they have been given a null value updated.
-
-In the case of the connection activity:
-
-{ConnectActivity}: shows what information is being published and links the SAR ID to the namespace established in the first screen.
-This class manages all the ROS nodes related to the path-planning activation and shows the status of the UGVs
-The back button kills all existing ROS nodes on the smartphone and stores the audio file in the internal memory of the device.
-
-{CuadrigaNode}, {RamblerNode} and {RoverJ8Node}: ROS nodes publishing a Bool message associated with the user's selection of a robot. 
-This message is used to trigger path planning from SAR-FIS for the needed available UGV. 
-The sending frequency is set by default to 500 ms. 
-Each switch belonging to a UGV has its own ROS topic, where the namespace identifies the human agent requesting the autonomous movement of the UGVs,
-followed by the name \textit{calling\_to\_robot}, where \textit{robot} is the name of the UGV.
-
-{statusNode}: ROS node subscribed to a topic generated by SAR-FIS, where the published message is related to the availability of each UGV in the IoRT. 
-In case a UGV is available (not being used by another agent or called by another smartphone), the display (in the connection activity) will show its status: available or busy.
