@@ -15,8 +15,6 @@ slightly modified for integration with the rest of the app.
 
 Audio captured is published and also saved as a WAV file in the internal storage for offline analysis.
 
-
-
 ## Installation
 The installation is made through Android Studio IDE. Since rosjava supports Gradle and Maven repositories, there's no
 need for downloading any other dependencies manually. Everything will be automatically installed once you open and build the project
@@ -26,7 +24,7 @@ To install the app, make sure that the desired SDK version is installed and run 
 
 ## References: some articles where the app has been used
 
-**The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study**
+**[1] The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study**
 
 @article{bravo2021internet,
   title={The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study},
@@ -39,7 +37,7 @@ To install the app, make sure that the desired SDK version is installed and run 
   publisher={MDPI}
 }
 
-**Integración de smartphones 5G en redes de sensores distribuidas para robótica de exteriores mediante ROS y Android**
+**[2] Integración de smartphones 5G en redes de sensores distribuidas para robótica de exteriores mediante ROS y Android**
 
 @inproceedings{RuizMudarraApp,
   title={Integración de smartphones {5G} en redes de sensores distribuidas para robótica de exteriores mediante {ROS} y {A}ndroid},
@@ -49,12 +47,23 @@ To install the app, make sure that the desired SDK version is installed and run 
   pages={91--99}
 }
 
-**Remote planning and operation of a UGV through ROS and commercial mobile networks**
+**[3] Remote planning and operation of a UGV through ROS and commercial mobile networks**
+
 @inproceedings{sanchez2022sarioca,
   title={Remote planning and operation of a {UGV} through {ROS} and commercial mobile networks},
   author={Manuel Sánchez-Montero and Manuel Toscano-Moreno and Juan Bravo-Arrabal and Javier Serón Barba and Pablo Vera-Ortega  and Ricardo Vázquez-Martín and  J.J. Fernandez-Lozano and
  Anthony Mandow and Alfonso García-Cerezo},
   booktitle={Fifth Iberian Robotics Conference},
+  year={2022},
+  pages={Submitted to}
+}
+
+**[4] Integrating ROS and Android for Rescuers in a Cloud Robotics Architecture: Application to Casualty Evacuation Exercise**
+
+@inproceedings{sanchez2022sarioca,
+  title={Remote planning and operation of a {UGV} through {ROS} and commercial mobile networks},
+  author={Manuel Toscano-Moreno and Juan Bravo-Arrabal and Manuel Sánchez-Montero and Javier Serón Barba and Ricardo Vázquez-Martín and  J.J. Fernandez-Lozano and Anthony Mandow and Alfonso García-Cerezo},
+  booktitle={IEEE International Symposium on Safety, Security, and Rescue Robotics (SSRR)},
   year={2022},
   pages={Submitted to}
 }
