@@ -44,7 +44,8 @@ The interaction between the SAR agent and the UMA-ROS-Android app must be user-f
   
  The app has two screens as a user interface.
  
- ## Configuration
+ ## Both activities (setup and connection to the ROS network)
+ 
 The configuration screen to connect to the ROS network is based in the [default Master Chooser](https://github.com/rosjava/android_core/blob/kinetic/android_core_components/src/org/ros/android/MasterChooser.java) provided with rosjava. This version is a modified one where the commonly not used configuration parameters were scraped. Instead, now there are:
 
 - A text entry for the IP address (local or public) and the LAN or WAN port of the ROS master to which the smartphone will connect 
@@ -54,15 +55,10 @@ The configuration screen to connect to the ROS network is based in the [default 
 
 This makes the execution of the app in multiple smartphones simultaneously in the same ROS network possible.
 
-<p align="center">
-    <img src="figs/SetupActivity.jpeg" alt="Custom Master Chooser" width="300" />
-<p/>
-
-## Running
 Once the connection with the ROS Master is established the Main Activity ("ConnectActivity") is executed, where all the nodes checked with the switches run and publish the data.
 
 <p align="center">
-    <img src="figs/ConnectActivity.png" alt="Custom Master Chooser" width="300" />
+    <img src="figs/bothActivities.png" alt="Custom Master Chooser" width="300" />
 <p/>
 
 <p align="center">
