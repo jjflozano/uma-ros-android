@@ -49,6 +49,16 @@ To install the app, make sure that the desired SDK version is installed and run 
   pages={91--99}
 }
 
+**Remote planning and operation of a UGV through ROS and commercial mobile networks**
+@inproceedings{sanchez2022sarioca,
+  title={Remote planning and operation of a {UGV} through {ROS} and commercial mobile networks},
+  author={Manuel Sánchez-Montero and Manuel Toscano-Moreno and Juan Bravo-Arrabal and Javier Serón Barba and Pablo Vera-Ortega  and Ricardo Vázquez-Martín and  J.J. Fernandez-Lozano and
+ Anthony Mandow and Alfonso García-Cerezo},
+  booktitle={Fifth Iberian Robotics Conference},
+  year={2022},
+  pages={Submitted to}
+}
+
 
 # Updates and a real use case (SAR tasks):
 We present the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
