@@ -100,43 +100,38 @@ Next figure shows the ROS nodes distributed through the Fog.
 The most relevant nodes for the case study described in here are summarized in the following. 
 ### In the IoRT:
 
-     {ntrip_ros} gets the stream of the differential corrections and publishes it in the {RTCM} topic.
+##### {ntrip_ros} gets the stream of the differential corrections and publishes it in the {RTCM} topic.
+
+##### {gps0} and {gps1} are the driver nodes that publish the position in the {gpsx/fix} topic, and the orientation in  {gps1/ori}. Differential corrections are obtained trhough the {RTCM} topic.
     
-    {gps0} and {gps1} are the driver nodes that publish the position in the {gpsx/fix} topic, and the orientation in  {gps1/ori}. Differential corrections are obtained trhough the {RTCM} topic.
+##### {center_gps} publishes the centered {GPS} position in {gpsj8/fix}.
     
-    {center_gps} publishes the centered {GPS} position in {gpsj8/fix}.
+##### {obj_fixer} reads the list of the GPS objectives {gps_objs} and publishes the current objective in {cur_obj}.
     
-    {obj_fixer} reads the list of the GPS objectives {gps_objs} and publishes the current objective in {cur_obj}.
+##### {joystick_driver} publishes in ROS {joy} the joystick's input to be able to teleoperate the robot or change to the path-following mode.
     
-    {joystick_driver} publishes in ROS {joy} the joystick's input to be able to teleoperate the robot or change to the path-following mode.
+##### {control_loop} is the main control node. In path-following it uses the current vehicle position {gps/fix}, orientation \textit{gps1/ori} and GPS objective {cur_obj} to perform a carrot-chasing algorithm. In teleoperation mode it uses the joystick commands and translates them to velocity commands. In both modes, velocity commands are published in {cmd_vel}.
     
-    {control_loop} is the main control node. In path-following it uses the current vehicle position {gps/fix}, orientation \textit{gps1/ori} and GPS objective {cur\_obj} to perform a carrot-chasing algorithm. In teleoperation mode it uses the joystick commands and translates them to velocity commands. In both modes, velocity commands are published in {cmd\_vel}.
+##### {camera_driver} publishes both cameras \rear_camera} and {front_camera}), providing together a 360 degree vision of the robot's surrounding.
+ 
+##### {lidar_driver} is the Velodyne VLP16 driver, which publishes the \textit{lidar\_packets} messages to be then processed into point clouds in the MECs.
     
-    \item \textbf{camera\_driver} publishes both cameras \rear\_camera} and {front\_camera}), providing together a 360 degree vision of the robot's surrounding.
+##### {padsim_arduino} subscribes to the velocity commands topic {cmd\_vel} and  emulates an Xbox controller using Xinput.
     
-    {lidar\_driver} is the Velodyne VLP16 driver, which publishes the \textit{lidar\_packets} messages to be then processed into point clouds in the MECs.
-    
-   {padsim\_arduino} subscribes to the velocity commands topic {cmd\_vel} and  emulates an Xbox controller using Xinput.
-    
-    {smartphone} node is running inside the smartphone and publishes the data of its GPS in {namespace/fix}, camera in {namespace/camera/compressed} and audio in {namespace/audio}. It is possible as well to communicate with the ROS node SAR-FIS to request the support of a UGV using the topic {call\_to\_robot}.
+##### {smartphone} node is running inside the smartphone and publishes the data of its GPS in {namespace/fix}, camera in {namespace/camera/compressed} and audio in {namespace/audio}. It is possible as well to communicate with the ROS node SAR-FIS to request the support of a UGV using the topic {call\_to\_robot}.
  
  
  #### In the MECs, the nodes are implemented as follows:
  
-     {joystick\_driver} reads the inputs from the joystick and publishes them in {joy}, allowing an operator at the MECs to remotely teleoperate the UGV.
+##### {joystick\_driver} reads the inputs from the joystick and publishes them in {joy}, allowing an operator at the MECs to remotely teleoperate the UGV.
      
-    {lidar\_processing} subscribes to the \textit{lidar\_packets} published by the robot and processes them into a point cloud (\textit{lidar/pointCloud}).
+##### {lidar\_processing} subscribes to the \textit{lidar\_packets} published by the robot and processes them into a point cloud (\textit{lidar/pointCloud}).
      
-    \{images360\_monitoring}, {images\_sm\_monitoring} and {lidar\_monitoring} are used to visualize the robot's cameras, smartphone camera and lidar respectively. 
+##### {images360\_monitoring}, {images\_sm\_monitoring} and {lidar\_monitoring} are used to visualize the robot's cameras, smartphone camera and lidar respectively. 
 
  
-    {SAR-FIS} runs inside {SAR-FIS} application in MATLAB, making it possible to monitor the agents' GPS positions (through {gps\_j8/fix} and {namespace/fix}), and generate a list of waypoints or objectives for a UGV publishing it in {gps/objs}.  
+{SAR-FIS} runs inside {SAR-FIS} application in MATLAB, making it possible to monitor the agents' GPS positions (through {gps\_j8/fix} and {namespace/fix}), and generate a list of waypoints or objectives for a UGV publishing it in {gps/objs}.  
  
-
-Finally, in the next figure we show how 
-<p align="center">
-    <img src="figs/ConnectActivity.png" alt="Custom Master Chooser" width="300" />
-<p/>
 
 ## Configuration
 The configuration screen to connect to the ROS network is based in the [default Master Chooser](https://github.com/rosjava/android_core/blob/kinetic/android_core_components/src/org/ros/android/MasterChooser.java) provided with rosjava. This version is a modified one where the commonly not used configuration parameters were scraped. Instead, now there are:
