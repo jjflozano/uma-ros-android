@@ -1,4 +1,6 @@
 # UMA-ROS-Android
+**The references can be seen at the end of the user case**
+
 This app makes a smartphone able to publish data from its sensors to
 other devices via ROS1 for monitoring purposes or to apply analysis algorithms based on Edge/Cloud Computing methods.
 
@@ -165,16 +167,10 @@ The most relevant ROS nodes for the case study presented in here are summarized 
 
 Next figure shows the planned (red) and teleoperated (blue) paths for the robot. The planned path was triggered by a human agent, using the app. In fact, the teleoperated path in the actual experiment only differs from the planned path in the final part. The path was teleoperated to make the robot move faster.
 
-<p align="center">
-    <img src="figs/paths.png" alt="Custom Master Chooser" width="700" />
-<p/>
 
 Finally, next figure shows the generic SAR-IoCA architecture and how the extraction route finishes at the medical post,
 where victims were attended and finally transported by an ambulance to the helicopter evacuation area. The robot responded to the call made by the rescuer from the smartphone **using the UMA-ROS-Android app**.
 
-<p align="center">
-    <img src="figs/SAR_IoCA.png" alt="Custom Master Chooser" width="900" />
-<p/>
 
 ## References: some papers related to UMA-ROS-Android
 
