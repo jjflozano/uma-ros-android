@@ -182,11 +182,12 @@ Once the connection with the ROS Master is established the Main Activity ("Conne
 
 Topics in this case:
 ```
-/android0/camera/compressed
-/android0/camera/camera_info
-/android0/audio
-/android0/fix
-/android0/IMU
+/García/camera/compressed
+/García/camera/camera_info
+/García/audio
+/García/fix
+/García/IMU
+/García/calling_to_RoverJ8
 ```
 
 Previous versions of the app showed a preview view of the camera in the Main Activity GUI but, due to battery consumption issues, it is currently removed. If needed it can be easily reimplemented thanks to cameraX.
