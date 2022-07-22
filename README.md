@@ -27,10 +27,13 @@ To install the app, make sure that the desired SDK version is installed and run 
 # Updates and a real use case (SAR tasks):
 We present the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
 (API 32). The app is intended for general use in distributed robotic systems, based on the Cloud Robotics concept. 
-The main goal is to integrate a smartphone as a sensor-node, by publishing information, via ROS, from and about the SAR agent carrying it.
+The main goal is to integrate a smartphone as a sensor-node, by publishing information, via ROS, from and about the search and rescue (SAR) agent carrying it. Next figure shows the smartphone running the app UMA-ROS-Android being used by different kinds of SAR agents (human, UGV and UAV).
 
+ <p align="center">
+    <img src="figs/agents.png" alt="Custom Master Chooser" width="600" />
+<p/>
 
-The interaction between the search and rescue (SAR) agent and the UMA-ROS-Android app must be user-friendly and agile, leading to a double purpose: 
+The interaction between the SAR agent and the UMA-ROS-Android app must be user-friendly and agile, leading to a double purpose: 
  1) To expand the ROS network, adding new sensor-nodes to the internet of robotics things (IoRT) ecosystem, either through a local area network (LAN) or via the wide area network (WAN), by means of smartphones. 
  These devices are interesting for an IoRT because they have their own mobile connectivity (no dependence on routers), high processing power
  in a small container, internal memory large enough to store datasets, and attractive sensors for data collection: cameras, IMU, GPS and a microphone.
@@ -58,12 +61,12 @@ The interaction between the search and rescue (SAR) agent and the UMA-ROS-Androi
 
 #### In the case of the setup activity:
 
-{CustomMasterChooser}: links the switches on the setup activity to ROS publishers, allowing the user to choose which information to transmit.
-{CameraNode}: an object for image analysis is instantiated by defining the target resolution and the camera that will provide the image (1080p resolution and rear camera are selected by default). Then, the node enters a listening routine where each incoming frame from the camera in YUV format is converted and compressed to JPG format and packed into a ROS message to be published as {sensor_msgs/CompressedImage}. The image was shown on the screen in early versions of the app, but given the high energy consumption of the smartphone, it has been decided to hide this option. Each time a frame is published, it is accompanied by a message with information about the image resolution in another topic. If the smartphone camera is calibrated, the resulting matrices can also be included.
+**CustomMasterChooser**: links the switches on the setup activity to ROS publishers, allowing the user to choose which information to transmit.
+**CameraNode**: an object for image analysis is instantiated by defining the target resolution and the camera that will provide the image (1080p resolution and rear camera are selected by default). Then, the node enters a listening routine where each incoming frame from the camera in YUV format is converted and compressed to JPG format and packed into a ROS message to be published as {sensor_msgs/CompressedImage}. The image was shown on the screen in early versions of the app, but given the high energy consumption of the smartphone, it has been decided to hide this option. Each time a frame is published, it is accompanied by a message with information about the image resolution in another topic. If the smartphone camera is calibrated, the resulting matrices can also be included.
 
-{AudioNode}: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the {AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of 44. kHz and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of {uint8}, writes this reading to a temporary file, packs it into a message of type {std_msgs/UInt8MultiArray} and publishes it. 
+**AudioNode**: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the {AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of 44. kHz and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of {uint8}, writes this reading to a temporary file, packs it into a message of type {std_msgs/UInt8MultiArray} and publishes it. 
 When the app disconnects from the master node, the temporary file is converted into an audio file in waveform format ({.WAV}). %To do this, an auxiliary routine is run which specifies the audio sampling parameters in the file header and then rewrites the contents of the temporary file into the final audio file, stored in a specific folder on the smartphone. The file name contains the phone identifier and the recording start date and time.
-{GPSNode} and {ImuNode}: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as {/sensor_msgs/IMU}, according to the default sampling rate.
+**GPSNode and ImuNode**: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as {/sensor_msgs/IMU}, according to the default sampling rate.
 
 For GPS, the native Android location library is used and the readings are sent in a ROS message of type {sensor_msgs/NavSatFix}. 
 There are two GPS configuration parameters: the minimum time (in milliseconds) and minimum distance (in meters) between two consecutive updates of the GPS location. By default, these parameters take a null value, which means they are continuously updated.
@@ -71,25 +74,20 @@ By default they have been given a null value updated.
 
 #### In the case of the connection activity:
 
-{ConnectActivity}: shows what information is being published and links the SAR ID to the namespace established in the first screen.
+**ConnectActivity**: shows what information is being published and links the SAR ID to the namespace established in the first screen.
 This class manages all the ROS nodes related to the path-planning activation and shows the status of the UGVs
 The back button kills all existing ROS nodes on the smartphone and stores the audio file in the internal memory of the device.
 
-{CuadrigaNode}, {RamblerNode} and {RoverJ8Node}: ROS nodes publishing a Bool message associated with the user's selection of a robot. 
+**CuadrigaNode**, **RamblerNode** and **RoverJ8Node**: ROS nodes publishing a Bool message associated with the user's selection of a robot. 
 This message is used to trigger path planning from SAR-FIS for the needed available UGV. 
 The sending frequency is set by default to 500 ms. 
 Each switch belonging to a UGV has its own ROS topic, where the namespace identifies the human agent requesting the autonomous movement of the UGVs,
 followed by the name {calling_to_robot}, where {robot} is the name of the UGV.
 
-{statusNode}: ROS node subscribed to a topic generated by SAR-FIS, where the published message is related to the availability of each UGV in the IoRT. 
+**statusNode**: ROS node subscribed to a topic generated by SAR-FIS, where the published message is related to the availability of each UGV in the IoRT. 
 In case a UGV is available (not being used by another agent or called by another smartphone), the display (in the connection activity) will show its status: available or busy.
 
 #### Integration in the ROS network
-
-Next figure shows the smartphone running the app UMA-ROS-Android being used by different kinds of SAR agents (human, UGV and UAV):
-<p align="center">
-    <img src="figs/agents.png" alt="Custom Master Chooser" width="600" />
-<p/>
 
 Next figure shows the ROS nodes distributed through the Fog. 
 
@@ -98,39 +96,38 @@ Next figure shows the ROS nodes distributed through the Fog.
 <p/>
 
 The most relevant ROS nodes for the case study presented in here are summarized in the following. 
-### In the IoRT:
+#### In the IoRT:
 
- {ntrip_ros} gets the stream of the differential corrections and publishes it in the {RTCM} topic.
+ **ntrip_ros** gets the stream of the differential corrections and publishes it in the {RTCM} topic.
 
- {gps0} and {gps1} are the driver nodes that publish the position in the {gpsx/fix} topic, and the orientation in  {gps1/ori}. Differential corrections are obtained trhough the {RTCM} topic.
+ **gps0** and **gps1** are the driver nodes that publish the position in the {gpsx/fix} topic, and the orientation in  {gps1/ori}. Differential corrections are obtained trhough the RTCM topic.
     
- {center_gps} publishes the centered {GPS} position in {gpsj8/fix}.
+**center_gps** publishes the centered GPS position in gpsj8/fix.
     
- {obj_fixer} reads the list of the GPS objectives {gps_objs} and publishes the current objective in {cur_obj}.
+ **obj_fixer** reads the list of the GPS objectives gps_objs and publishes the current objective in cur_obj.
     
- {joystick_driver} publishes in ROS {joy} the joystick's input to be able to teleoperate the robot or change to the path-following mode.
+**joystick_driver** publishes in ROS {joy} the joystick's input to be able to teleoperate the robot or change to the path-following mode.
     
- {control_loop} is the main control node. In path-following it uses the current vehicle position {gps/fix}, orientation \textit{gps1/ori} and GPS objective {cur_obj} to perform a carrot-chasing algorithm. In teleoperation mode it uses the joystick commands and translates them to velocity commands. In both modes, velocity commands are published in {cmd_vel}.
+**control_loop** is the main control node. In path-following it uses the current vehicle position gps/fix, orientation \textit{gps1/ori} and GPS objective cur_obj to perform a carrot-chasing algorithm. In teleoperation mode it uses the joystick commands and translates them to velocity commands. In both modes, velocity commands are published in cmd_vel.
     
- {camera_driver} publishes both cameras \rear_camera} and {front_camera}), providing together a 360 degree vision of the robot's surrounding.
+**camera_driver** publishes both cameras rear_camera and front_camera), providing together a 360 degree vision of the robot's surrounding.
  
- {lidar_driver} is the Velodyne VLP16 driver, which publishes the {lidar_packets} messages to be then processed into point clouds in the MECs.
+**lidar_driver** is the Velodyne VLP16 driver, which publishes the lidar_packets messages to be then processed into point clouds in the MECs.
     
- {padsim_arduino} subscribes to the velocity commands topic {cmd_vel} and  emulates an Xbox controller using Xinput.
+**padsim_arduino** subscribes to the velocity commands topic cmd_vel and  emulates an Xbox controller using Xinput.
     
- {smartphone} node is running inside the smartphone and publishes the data of its GPS in {namespace/fix}, camera in {namespace/camera/compressed} and audio in {namespace/audio}. It is possible as well to communicate with the ROS node SAR-FIS to request the support of a UGV using the topic {call_to_robot}.
+**smartphone** node is running inside the smartphone and publishes the data of its GPS in namespace/fix, camera in namespace/camera/compressed and audio in namespace/audio. It is possible as well to communicate with the ROS node SAR-FIS to request the support of a UGV using the topic call_to_robot.
  
  #### In the MECs, the nodes are implemented as follows:
  
- {joystick_driver} reads the inputs from the joystick and publishes them in {joy}, allowing an operator at the MECs to remotely teleoperate the UGV.
+**joystick_driver** reads the inputs from the joystick and publishes them in {joy}, allowing an operator at the MECs to remotely teleoperate the UGV.
      
- {lidar_processing} subscribes to the {lidar_packets} published by the robot and processes them into a point cloud ({lidar/pointCloud}).
+**lidar_processing** subscribes to the {lidar_packets} published by the robot and processes them into a point cloud ({lidar/pointCloud}).
      
- {images360_monitoring}, {images_sm_monitoring} and {lidar_monitoring} are used to visualize the robot's cameras, smartphone camera and lidar respectively. 
+**images360_monitoring**, **images_sm_monitoring** and **lidar_monitoring** are used to visualize the robot's cameras, smartphone camera and lidar respectively. 
 
- {SAR-FIS} runs inside {SAR-FIS} application in MATLAB, making it possible to monitor the agents' GPS positions (through {gps_j8/fix} and {namespace/fix}), and generate a list of waypoints or objectives for a UGV publishing it in {gps/objs}.  
+**SAR-FIS** runs in MATLAB, making it possible to monitor the agents' GPS positions (through gps_j8/fix and namespace/fix), and generate a list of waypoints or objectives for a UGV publishing it in gps/objs.  
  
-
 ## Configuration
 The configuration screen to connect to the ROS network is based in the [default Master Chooser](https://github.com/rosjava/android_core/blob/kinetic/android_core_components/src/org/ros/android/MasterChooser.java) provided with rosjava. This version is a modified one where the commonly not used configuration parameters were scraped. Instead, now there are:
 
