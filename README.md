@@ -24,6 +24,30 @@ in Android Studio (Shift+F9).
 
 To install the app, make sure that the desired SDK version is installed and run the app (Shift+F10), which will install it in your device.
 
+## References: some articles where the app has been used
+
+**The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study**
+@article{bravo2021internet,
+  title={The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study},
+  author={Bravo-Arrabal, Juan and Toscano-Moreno, Manuel and Fernandez-Lozano, JJ and Mandow, Anthony and Gomez-Ruiz, Jose Antonio and Garc{\'\i}a-Cerezo, Alfonso},
+  journal={Sensors},
+  volume={21},
+  number={23},
+  pages={7843},
+  year={2021},
+  publisher={MDPI}
+}
+
+**Integración de smartphones 5G en redes de sensores distribuidas para robótica de exteriores mediante ROS y Android**
+@inproceedings{RuizMudarraApp,
+  title={Integración de smartphones {5G} en redes de sensores distribuidas para robótica de exteriores mediante {ROS} y {A}ndroid},
+  author={Ruiz Mudarra, G. and Bravo-Arrabal, J. and Fern{\'a}ndez-Lozano  J. J. and  Garc{\'\i}a-Cerezo, A.},
+  booktitle={Jornadas de Robótica, Educación y Biongeniería del Comité Español de Automática},
+  year={2022},
+  pages={91--99}
+}
+
+
 # Updates and a real use case (SAR tasks):
 We present the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
 (API 32). The app is intended for general use in distributed robotic systems, based on the Cloud Robotics concept. 
@@ -66,6 +90,7 @@ The interaction between the SAR agent and the UMA-ROS-Android app must be user-f
 
 **AudioNode**: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the {AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of 44. kHz and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of {uint8}, writes this reading to a temporary file, packs it into a message of type {std_msgs/UInt8MultiArray} and publishes it. 
 When the app disconnects from the master node, the temporary file is converted into an audio file in waveform format ({.WAV}). %To do this, an auxiliary routine is run which specifies the audio sampling parameters in the file header and then rewrites the contents of the temporary file into the final audio file, stored in a specific folder on the smartphone. The file name contains the phone identifier and the recording start date and time.
+
 **GPSNode and ImuNode**: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as {/sensor_msgs/IMU}, according to the default sampling rate.
 
 For GPS, the native Android location library is used and the readings are sent in a ROS message of type {sensor_msgs/NavSatFix}. 
