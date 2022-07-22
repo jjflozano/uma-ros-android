@@ -15,18 +15,17 @@ slightly modified for integration with the rest of the app.
 
 Audio captured is published and also saved as a WAV file in the internal storage for offline analysis.
 
-# More details and updates:
+# More details, updates and future lines:
 We present the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
 (API 32). The app is intended for general use in distributed robotic systems, based on the Cloud Robotics concept. 
 The main goal is to integrate a smartphone as a sensor-node, by publishing information, via ROS, from and about the SAR agent carrying it.
 
 
-The interaction between the SAR agent and the UMA-ROS-Android app must be user-friendly and agile, leading to a double purpose: 
- 1) To expand the ROS network, adding new sensor-nodes to the IoRT ecosystem, either through a LAN or via WAN, by means of smartphones. 
+The interaction between the search and rescue (SAR) agent and the UMA-ROS-Android app must be user-friendly and agile, leading to a double purpose: 
+ 1) To expand the ROS network, adding new sensor-nodes to the internet of robotics things (IoRT) ecosystem, either through a local area network (LAN) or via the wide area network (WAN), by means of smartphones. 
  These devices are interesting for an IoRT because they have their own mobile connectivity (no dependence on routers), high processing power
  in a small container, internal memory large enough to store datasets, and attractive sensors for data collection: cameras, IMU, GPS and a microphone.
- For this, the user must set the socket local to his network or public, so that the connections will be local to the smartphone's network, or remote to it,
- respectively.
+ For this, the user must set the socket local to his network or public, so that the connections will be local to the smartphone's network, or remote to it, respectively.
  
  2) To address some needs of human and robotic SAR agents, acquiring information from their surroundings: images and audio, especially. 
  In addition, the app should encourage cooperation between agents: activate a path-planning for a UGV towards the location of the responder
@@ -35,17 +34,15 @@ The interaction between the SAR agent and the UMA-ROS-Android app must be user-f
  The app has two screens as a user interface. A dark, high contrast colour gamut has been chosen for
  proper outdoor viewing and so that devices with OLED displays can benefit from reduced battery consumption. When UMA-ROS-Android is executed 
  in a smartphone, the first activity running is the setup activity. In here, two user inputs are requested: the ROS master socket 
- (local or public IP address and port) in order to connect to the ROS nodes distributed over the SAR-IoCA architecture, and the user identification. 
+ (local or public IP address and port) in order to connect to the ROS nodes distributed over an SAR-IoCA architecture, and the user identification. 
  This user name is associated with the namespace of the ROS topics where the desired information will be published. This can be done by marking 
  the switches related to each of the smartphone's internal sensors (camera, microphone, IMU and GPS). When these switches are enabled,
  their colour changes to green. Finally, a large button has been set up for the user to connect to the ROS network distributed in the Fog. 
  Therefore, all these topics are visible in any host of the architecture: Cloud, MECs and IoRT.
  
  The second screen is the connection activity, where the user can select one or more switches in order to call one or more of the robots (UGVs) 
- available in the IoRT. The list of UGVs presented in this new version of the app is static, and includes three UGVs from our 
- Robotics and Mechatronics Group: Cuadriga, Rambler and Rover J8. All of them can be called from the app, thanks to the integration 
- of SAR-FIS in the ROS network. Figure \ref{fig:appscreenshots} shows how the agent García has performed a query for the Rover J8 to be planned
- to the location of the smartphone, which is taken by SAR-FIS in the ROS topic /García/fix. Finally, the bottom of the connection activity shows 
+ available in the IoRT. The list of UGVs presented in this new version of the app is static, and includes three UGVs from the 
+ Robotics and Mechatronics Group of the University of Malaga (Spain): Cuadriga, Rambler and Rover J8. All of them can be called from the app, thanks to the integration of a feedback information system (FIS) in the ROS network. Figure shows how the agent García has performed a query for the Rover J8 to be planned to the location of the smartphone, which is taken by SAR-FIS in the ROS topic /García/fix. Finally, the bottom of the connection activity shows 
  what information is transmitted from this smartphone and through which ROS topics.
  
  The functionality of the application is structured in 10 classes written in java, eight of which include the construction of the ROS nodes needed to exchange information with the rest of ROS nodes in the SAR-IoCA architecture. The other two java classes are associated with the two activities that make up the frontend, so that the user can switch from one to the other using objects.
