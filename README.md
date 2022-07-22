@@ -58,7 +58,7 @@ This makes the execution of the app in multiple smartphones simultaneously in th
 Once the connection with the ROS Master is established the Main Activity ("ConnectActivity") is executed, where all the nodes checked with the switches run and publish the data.
 
 <p align="center">
-    <img src="figs/bothActivities.png" alt="Custom Master Chooser" width="300" />
+    <img src="figs/bothActivities.png" alt="Custom Master Chooser" width="600" />
 <p/>
 
 <p align="center">
