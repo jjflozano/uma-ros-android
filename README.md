@@ -56,16 +56,17 @@ The interaction between the search and rescue (SAR) agent and the UMA-ROS-Androi
  
  The functionality of the application is structured in 10 classes written in java, eight of which include the construction of the ROS nodes needed to exchange information with the rest of ROS nodes in the SAR-IoCA architecture. The other two java classes are associated with the two activities that make up the frontend, so that the user can switch from one to the other using objects.
 
-### In the case of the setup activity:
+#### In the case of the setup activity:
 
 {CustomMasterChooser}: links the switches on the setup activity to ROS publishers, allowing the user to choose which information to transmit.
-{CameraNode}: an object for image analysis is instantiated by defining the target resolution and the camera that will provide the image (1080p resolution and rear camera are selected by default). Then, the node enters a listening routine where each incoming frame from the camera in YUV format is converted and compressed to JPG format and packed into a ROS message to be published as \textit{sensor\_msgs/CompressedImage}. %The image was shown on the screen (connection activity in figure \ref{fig:appscreenshots}) in early versions of the app, but given the high energy consumption of the smartphone, it has been decided to hide this option. Each time a frame is published, it is accompanied by a message with information about the image resolution in another topic. If the smartphone camera is calibrated, the resulting matrices can also be included.
-{AudioNode}: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the \textit{AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of \SI{44.1}{\kilo\Hz} and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of \textit{uint8}, writes this reading to a temporary file, packs it into a message of type \textit{std\_msgs/UInt8MultiArray} and publishes it. 
-When the app disconnects from the master node, the temporary file is converted into an audio file in waveform format (\textit{.WAV}). %To do this, an auxiliary routine is run which specifies the audio sampling parameters in the file header and then rewrites the contents of the temporary file into the final audio file, stored in a specific folder on the smartphone. The file name contains the phone identifier and the recording start date and time.
-{GPSNode} and {ImuNode}: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as \textit{/sensor\_msgs/IMU}, according to the default sampling rate.
+{CameraNode}: an object for image analysis is instantiated by defining the target resolution and the camera that will provide the image (1080p resolution and rear camera are selected by default). Then, the node enters a listening routine where each incoming frame from the camera in YUV format is converted and compressed to JPG format and packed into a ROS message to be published as {sensor_msgs/CompressedImage}. The image was shown on the screen in early versions of the app, but given the high energy consumption of the smartphone, it has been decided to hide this option. Each time a frame is published, it is accompanied by a message with information about the image resolution in another topic. If the smartphone camera is calibrated, the resulting matrices can also be included.
 
-For GPS, the native Android location library is used and the readings are sent in a ROS message of type \textit{sensor\_msgs/NavSatFix}. 
-There are two GPS configuration parameters: the minimum time and distance between updates \cite{GPSparameters}. 
+{AudioNode}: allows the transmission of the sound captured from the environment for remote monitoring and processing. Saving the audio recorded in the phone's storage is also possible and is useful for offline processing or to create datasets from experiments. The AudioRecord library has been used to access the microphone. Like cameraX, this library opens a continuous buffer with the sensor readings. Initially, the {AudioRecord} instantiation is configured to capture stereo audio at a sampling rate of 44. kHz and 16-bit encoding. After this, it enters a loop that ends when the application is closed. It reads the microphone data in the form of a vector of {uint8}, writes this reading to a temporary file, packs it into a message of type {std_msgs/UInt8MultiArray} and publishes it. 
+When the app disconnects from the master node, the temporary file is converted into an audio file in waveform format ({.WAV}). %To do this, an auxiliary routine is run which specifies the audio sampling parameters in the file header and then rewrites the contents of the temporary file into the final audio file, stored in a specific folder on the smartphone. The file name contains the phone identifier and the recording start date and time.
+{GPSNode} and {ImuNode}: A listening routine reads the data from the sensors, and other auxiliary routines package them into ROS messages and publish them. The IMU sends orientation, angular velocity and linear acceleration data. This information is published to the ROS network as {/sensor_msgs/IMU}, according to the default sampling rate.
+
+For GPS, the native Android location library is used and the readings are sent in a ROS message of type {sensor_msgs/NavSatFix}. 
+There are two GPS configuration parameters: the minimum time (in milliseconds) and minimum distance (in meters) between two consecutive updates of the GPS location. By default, these parameters take a null value, which means they are continuously updated.
 By default they have been given a null value updated.
 
 #### In the case of the connection activity:
@@ -78,12 +79,12 @@ The back button kills all existing ROS nodes on the smartphone and stores the au
 This message is used to trigger path planning from SAR-FIS for the needed available UGV. 
 The sending frequency is set by default to 500 ms. 
 Each switch belonging to a UGV has its own ROS topic, where the namespace identifies the human agent requesting the autonomous movement of the UGVs,
-followed by the name \textit{calling\_to\_robot}, where \textit{robot} is the name of the UGV.
+followed by the name {calling_to_robot}, where {robot} is the name of the UGV.
 
 {statusNode}: ROS node subscribed to a topic generated by SAR-FIS, where the published message is related to the availability of each UGV in the IoRT. 
 In case a UGV is available (not being used by another agent or called by another smartphone), the display (in the connection activity) will show its status: available or busy.
 
-### Integration in the ROS network
+#### Integration in the ROS network
 
 Next figure shows the smartphone running the app UMA-ROS-Android being used by different kinds of SAR agents (human, UGV and UAV):
 <p align="center">
