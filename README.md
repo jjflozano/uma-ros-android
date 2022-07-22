@@ -27,6 +27,7 @@ To install the app, make sure that the desired SDK version is installed and run 
 ## References: some articles where the app has been used
 
 **The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study**
+
 @article{bravo2021internet,
   title={The Internet of Cooperative Agents Architecture (X-IoCA) for Robots, Hybrid Sensor Networks, and MEC Centers in Complex Environments: A Search and Rescue Case Study},
   author={Bravo-Arrabal, Juan and Toscano-Moreno, Manuel and Fernandez-Lozano, JJ and Mandow, Anthony and Gomez-Ruiz, Jose Antonio and Garc{\'\i}a-Cerezo, Alfonso},
@@ -39,6 +40,7 @@ To install the app, make sure that the desired SDK version is installed and run 
 }
 
 **Integración de smartphones 5G en redes de sensores distribuidas para robótica de exteriores mediante ROS y Android**
+
 @inproceedings{RuizMudarraApp,
   title={Integración de smartphones {5G} en redes de sensores distribuidas para robótica de exteriores mediante {ROS} y {A}ndroid},
   author={Ruiz Mudarra, G. and Bravo-Arrabal, J. and Fern{\'a}ndez-Lozano  J. J. and  Garc{\'\i}a-Cerezo, A.},
