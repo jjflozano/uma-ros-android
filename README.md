@@ -87,29 +87,29 @@ In case a UGV is available (not being used by another agent or called by another
 
 Next figure shows the smartphone running the app UMA-ROS-Android being used by different kinds of SAR agents (human, UGV and UAV):
 <p align="center">
-    <img src="figs/agents.png" alt="Custom Master Chooser" width="300" />
+    <img src="figs/agents.png" alt="Custom Master Chooser" width="600" />
 <p/>
 
 Next figure shows the ROS nodes distributed through the Fog. 
 
 <p align="center">
-    <img src="figs/ROSnodes.png" alt="Custom Master Chooser" width="300" />
+    <img src="figs/ROSnodes.png" alt="Custom Master Chooser" width="600" />
 <p/>
 
 The most relevant nodes for the case study described in here are summarized in the following. 
 ### In the IoRT:
 
-     {ntrip\_ros} gets the stream of the differential corrections and publishes it in the {RTCM} topic.
+     {ntrip_ros} gets the stream of the differential corrections and publishes it in the {RTCM} topic.
     
-    {gps0} and \textbf{gps1} are the driver nodes that publish the position in the \textit{gpsx/fix} topic, and the orientation in  \textit{gps1/ori}. Differential corrections are obtained trhough the \textit{RTCM} topic.
+    {gps0} and {gps1} are the driver nodes that publish the position in the {gpsx/fix} topic, and the orientation in  {gps1/ori}. Differential corrections are obtained trhough the {RTCM} topic.
     
-    \textbf{center\_gps} publishes the centered {GPS} position in \textit{gps\_j8/fix}.
+    {center_gps} publishes the centered {GPS} position in {gpsj8/fix}.
     
-    {obj\_fixer} reads the list of the GPS objectives (\textit{gps\_objs})   and publishes the current objective in \textit{cur\_obj}.
+    {obj_fixer} reads the list of the GPS objectives {gps_objs} and publishes the current objective in {cur_obj}.
     
-    {joystick\_driver} publishes in ROS (\textit{joy}) the joystick's input to be able to teleoperate the robot or change to the path-following mode.
+    {joystick_driver} publishes in ROS {joy} the joystick's input to be able to teleoperate the robot or change to the path-following mode.
     
-    {control\_loop} is the main control node. In path-following it uses the current vehicle position {gps/fix}, orientation \textit{gps1/ori} and GPS objective {cur\_obj} to perform a carrot-chasing algorithm. In teleoperation mode it uses the joystick commands and translates them to velocity commands. In both modes, velocity commands are published in {cmd\_vel}.
+    {control_loop} is the main control node. In path-following it uses the current vehicle position {gps/fix}, orientation \textit{gps1/ori} and GPS objective {cur\_obj} to perform a carrot-chasing algorithm. In teleoperation mode it uses the joystick commands and translates them to velocity commands. In both modes, velocity commands are published in {cmd\_vel}.
     
     \item \textbf{camera\_driver} publishes both cameras \rear\_camera} and {front\_camera}), providing together a 360 degree vision of the robot's surrounding.
     
