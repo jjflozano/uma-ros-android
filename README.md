@@ -163,6 +163,12 @@ The most relevant ROS nodes for the case study presented in here are summarized 
 
 **SAR-FIS** runs in MATLAB, making it possible to monitor the agents' GPS positions (through gps_j8/fix and namespace/fix), and generate a list of waypoints or objectives for a UGV publishing it in gps/objs.  
 
+Next figure shows the generic SAR-IoCA architecture and how the extraction route finishes at the medical post,
+where victims were attended and finally transported by an ambulance to the helicopter evacuation area. The robot responded to the call made by the rescuer from the smartphone using the UMA-ROS-Android app.
+
+<p align="center">
+    <img src="figs/SAR_IoCA.png" alt="Custom Master Chooser" width="600" />
+<p/>
 
 ## References: some papers related to UMA-ROS-Android
 
