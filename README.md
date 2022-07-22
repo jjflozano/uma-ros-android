@@ -1,5 +1,5 @@
 # UMA-ROS-Android
-**The references can be seen at the end of the user case**
+**Note: The references can be seen at the end of the user case**
 
 This app makes a smartphone able to publish data from its sensors to
 other devices via ROS1 for monitoring purposes or to apply analysis algorithms based on Edge/Cloud Computing methods.
