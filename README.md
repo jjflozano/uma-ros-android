@@ -163,7 +163,7 @@ The most relevant ROS nodes for the case study presented in here are summarized 
 
 **SAR-FIS** runs in MATLAB, making it possible to monitor the agents' GPS positions (through gps_j8/fix and namespace/fix), and generate a list of waypoints or objectives for a UGV publishing it in gps/objs.  
 
-Next figure shows the planned (red) and executed (blue) paths for the robot. The planned path was triggered by a human agent, using the app:
+Next figure shows the planned (red) and teleoperated (blue) paths for the robot. The planned path was triggered by a human agent, using the app. In fact, the teleoperated path in the actual experiment only differs from the planned path in the final part. The path was teleoperated to make the robot move faster.
 
 <p align="center">
     <img src="figs/paths.png" alt="Custom Master Chooser" width="700" />
