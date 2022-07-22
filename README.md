@@ -167,7 +167,7 @@ Next figure shows the generic SAR-IoCA architecture and how the extraction route
 where victims were attended and finally transported by an ambulance to the helicopter evacuation area. The robot responded to the call made by the rescuer from the smartphone using the UMA-ROS-Android app.
 
 <p align="center">
-    <img src="figs/SAR_IoCA.png" alt="Custom Master Chooser" width="600" />
+    <img src="figs/SAR_IoCA.png" alt="Custom Master Chooser" width="900" />
 <p/>
 
 ## References: some papers related to UMA-ROS-Android
