@@ -42,7 +42,46 @@ The interaction between the SAR agent and the UMA-ROS-Android app must be user-f
  In addition, the app should encourage cooperation between agents: activate a path-planning for a UGV towards the location of the responder
  using the app in his/her smartphone. Moreover, it is necessary to get and show information from other agents in the screen.
   
- The app has two screens as a user interface. A dark, high contrast colour gamut has been chosen for
+ The app has two screens as a user interface.
+ 
+ ## Configuration
+The configuration screen to connect to the ROS network is based in the [default Master Chooser](https://github.com/rosjava/android_core/blob/kinetic/android_core_components/src/org/ros/android/MasterChooser.java) provided with rosjava. This version is a modified one where the commonly not used configuration parameters were scraped. Instead, now there are:
+
+- A text entry for the IP address (local or public) and the LAN or WAN port of the ROS master to which the smartphone will connect 
+- A text entry where the phone identifier is defined; 
+- A series of switches to determine which sensory information is to be sent; 
+- A button to start the connection.
+
+This makes the execution of the app in multiple smartphones simultaneously in the same ROS network possible.
+
+<p align="center">
+    <img src="figs/SetupActivity.jpeg" alt="Custom Master Chooser" width="300" />
+<p/>
+
+## Running
+Once the connection with the ROS Master is established the Main Activity ("ConnectActivity") is executed, where all the nodes checked with the switches run and publish the data.
+
+<p align="center">
+    <img src="figs/ConnectActivity.png" alt="Custom Master Chooser" width="300" />
+<p/>
+
+<p align="center">
+    <img src="figs/Activities.png" alt="Custom Master Chooser" width="600" />
+<p/>
+
+Topics in this case:
+```
+/García/camera/compressed
+/García/camera/camera_info
+/García/audio
+/García/fix
+/García/IMU
+/García/calling_to_RoverJ8
+```
+
+Previous versions of the app showed a preview view of the camera in the Main Activity GUI but, due to battery consumption issues, it is currently removed. If needed it can be easily reimplemented thanks to cameraX.
+
+A dark, high contrast colour gamut has been chosen for
  proper outdoor viewing and so that devices with OLED displays can benefit from reduced battery consumption. When UMA-ROS-Android is executed 
  in a smartphone, the first activity running is the setup activity. In here, two user inputs are requested: the ROS master socket 
  (local or public IP address and port) in order to connect to the ROS nodes distributed over an SAR-IoCA architecture, and the user identification. 
@@ -127,43 +166,7 @@ The most relevant ROS nodes for the case study presented in here are summarized 
 **images360_monitoring**, **images_sm_monitoring** and **lidar_monitoring** are used to visualize the robot's cameras, smartphone camera and lidar respectively. 
 
 **SAR-FIS** runs in MATLAB, making it possible to monitor the agents' GPS positions (through gps_j8/fix and namespace/fix), and generate a list of waypoints or objectives for a UGV publishing it in gps/objs.  
- 
-## Configuration
-The configuration screen to connect to the ROS network is based in the [default Master Chooser](https://github.com/rosjava/android_core/blob/kinetic/android_core_components/src/org/ros/android/MasterChooser.java) provided with rosjava. This version is a modified one where the commonly not used configuration parameters were scraped. Instead, now there are:
 
-- A text entry for the IP address (local or public) and the LAN or WAN port of the ROS master to which the smartphone will connect 
-- A text entry where the phone identifier is defined; 
-- A series of switches to determine which sensory information is to be sent; 
-- A button to start the connection.
-
-This makes the execution of the app in multiple smartphones simultaneously in the same ROS network possible.
-
-<p align="center">
-    <img src="figs/SetupActivity.jpeg" alt="Custom Master Chooser" width="300" />
-<p/>
-
-## Running
-Once the connection with the ROS Master is established the Main Activity ("ConnectActivity") is executed, where all the nodes checked with the switches run and publish the data.
-
-<p align="center">
-    <img src="figs/ConnectActivity.png" alt="Custom Master Chooser" width="300" />
-<p/>
-
-<p align="center">
-    <img src="figs/Activities.png" alt="Custom Master Chooser" width="600" />
-<p/>
-
-Topics in this case:
-```
-/García/camera/compressed
-/García/camera/camera_info
-/García/audio
-/García/fix
-/García/IMU
-/García/calling_to_RoverJ8
-```
-
-Previous versions of the app showed a preview view of the camera in the Main Activity GUI but, due to battery consumption issues, it is currently removed. If needed it can be easily reimplemented thanks to cameraX.
 
 ## References: some papers related to UMA-ROS-Android
 
