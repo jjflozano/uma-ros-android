@@ -22,7 +22,7 @@ in Android Studio (Shift+F9).
 
 To install the app, make sure that the desired SDK version is installed and run the app (Shift+F10), which will install it in your device.
 
-## Updates and a real use case (SAR tasks):
+## Updates and a real use case: cooperation between search and rescue agents
 
 We present the design (frontend) and functionality (backend) of the developed UMA-ROS-Android app, being executable in current Android version
 (API 32). The app is intended for general use in distributed robotic systems, based on the Cloud Robotics concept. 
